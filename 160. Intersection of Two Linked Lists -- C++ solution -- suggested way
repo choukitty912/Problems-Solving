@@ -1,0 +1,51 @@
+/* if two linked list have intersection, the intersection part will be equal from same index (same length from end)
+ * so compare each element with shorter one
+ */
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int sizeA = 0 ,sizeB = 0;
+        ListNode *pA= headA, *pB = headB;
+        if (pA== NULL || pB == NULL) return NULL;
+        
+        while (pA) {
+            sizeA++;
+            pA=pA->next;
+        }
+        
+        while (pB) {
+            sizeB++;
+            pB=pB->next;
+        }
+        
+        pA= headA; 
+        pB = headB;
+        
+        if (sizeA<sizeB) swap(pA,pB);
+        
+        int count = abs(sizeA-sizeB);
+    
+        while (count > 0) {
+            count--;
+            pA = pA->next;
+        }
+        
+        while (pA && pB) {
+            if (pA == pB) return pA;
+            pA = pA->next;
+            pB = pB->next;
+        }
+        
+        return NULL;
+        
+    }
+};
