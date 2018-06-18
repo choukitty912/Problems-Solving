@@ -1,0 +1,50 @@
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        int size_a = a.size();
+        int size_b = b.size();
+        
+        if (size_a == 0) return b;
+        if (size_b == 0) return a;
+        
+        int i = 1, carry = 0;
+        stack <char> ans;
+        while (i <= min(size_a, size_b)) {
+            int a_temp = a[size_a-i] -'0';
+            int b_temp = b[size_b-i] - '0';
+            int temp = a_temp^b_temp^carry;
+            //carry = a_temp&b_temp | carry& (a_temp ^b_temp);
+            carry = a_temp&b_temp | carry&a_temp | carry&b_temp;
+            ans.push('0'+temp);
+            i++;
+        }
+        
+        while(i <= size_a) {
+            int a_temp= a[size_a-i] -'0';
+            int temp = a_temp^carry;
+            carry = a_temp&carry;
+            ans.push('0'+temp);
+            i++;
+            
+        }
+        while (i <= size_b) {
+            int b_temp= b[size_b-i] -'0';
+            int temp = b_temp^carry;
+            carry = b_temp&carry;
+            ans.push('0'+temp);
+            i++;
+            
+        }
+        
+        if (carry) ans.push('0'+carry);
+        
+        string res;
+        while (!ans.empty()) {
+            res.push_back(ans.top());
+            ans.pop();
+        }
+        
+        return res;
+        
+    }
+};
