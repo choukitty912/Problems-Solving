@@ -1,0 +1,22 @@
+/* calculate the value from back*/
+int Solution::lengthOfLastWord(const string &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    
+    int size = A.size();
+    
+    if (size <=0 ) return 0;
+    
+    int cur = 0;
+    
+    for (int i = size - 1; i >=0 ; i--) {
+        if (A[i] == ' ' && cur != 0) {
+            return cur;
+        } 
+        
+        if (A[i] != ' ') cur++;
+    }
+    return cur;
+}
