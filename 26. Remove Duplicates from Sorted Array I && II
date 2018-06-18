@@ -1,0 +1,45 @@
+/* same concept: 2 pointers, one indicates the len, another traverse the array, if A[len] == A[i], search until not equal;and let len to be i*/
+int Solution::removeDuplicates(vector<int> &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    int size = A.size();
+    if (size <=2) return size;
+    
+    int len = 1;
+    
+    for (int i = 2; i<size; i++) {
+        if (A[len-1] == A[i]) {
+
+        } else {
+            len++;
+            A[len] = A[i];
+        }
+    }
+    
+    return len +1;
+}
+
+
+/*Removed duplicates I*/ 
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int size = nums.size();
+        
+        if (size <= 1) return size;
+        
+        int current  = 0;
+        
+        for (int i = 1; i< size; i++) {
+            if (nums[current] != nums[i] ) {
+                current++;
+                nums[current] = nums[i];
+            }
+        }
+        return current+1;
+        
+    }
+};
