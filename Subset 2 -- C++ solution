@@ -1,0 +1,50 @@
+/*
+Given a collection of integers that might contain duplicates, S, return all possible subsets.
+
+Note:
+
+Elements in a subset must be in non-descending order.
+The solution set must not contain duplicate subsets.
+The subsets must be sorted lexicographically.
+Example :
+If S = [1,2,2], the solution is:
+
+[
+[],
+[1],
+[1,2],
+[1,2,2],
+[2],
+[2, 2]
+]
+*/
+
+void getsubset(vector<int> &A, int start, vector <int> &temp, vector <vector<int>> &ans) {
+    for (int i = start; i < A.size(); i++) {
+        temp.push_back(A[i]);
+        ans.push_back(temp);
+        getsubset(A, i+1, temp, ans);
+        temp.pop_back();
+        while ((i+1 < A.size() )&&(A[i] == A[i+1])) i++;
+    }
+    
+}
+
+vector<vector<int> > Solution::subsetsWithDup(vector<int> &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    vector<vector<int>> ans;
+    vector <int> temp_vec;
+    ans.push_back(temp_vec);
+    int size = A.size();
+    if (size <= 0) return ans;
+    
+    
+    sort (A.begin(), A.end());
+    
+    getsubset(A, 0, temp_vec, ans);
+    return ans;
+    
+}
