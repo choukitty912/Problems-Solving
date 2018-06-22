@@ -1,0 +1,41 @@
+/*
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+Example:
+
+Input: n = 4, k = 2
+Output:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+
+*/
+
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector <vector<int>> ans;
+        vector <int> temp;
+        
+        combine_helper(n, k, 1, ans, temp);
+        return ans;
+    }
+    
+    void combine_helper(int n, int k, int start, vector<vector<int>> &ans, vector<int> &temp) {
+        if (temp.size() == k) {
+            ans.push_back(temp);
+            return;
+        }
+        for (int i = start; i <= n; i++) {
+            temp.push_back(i);
+            combine_helper(n, k, i+1, ans, temp);
+            temp.pop_back();
+        }
+        
+    }
+};
