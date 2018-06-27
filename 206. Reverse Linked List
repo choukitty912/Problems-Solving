@@ -1,0 +1,47 @@
+/*
+Reverse a singly linked list.
+
+Example:
+
+Input: 1->2->3->4->5->NULL
+Output: 5->4->3->2->1->NULL
+*/
+/*===============iterative=================*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+         ListNode* prev = NULL, *next = NULL, *cur = head;
+         while(cur) {
+             next = cur->next;
+             cur->next = prev;
+             prev = cur;
+             cur = next;
+         }
+        head = prev;
+        return head;
+    }
+};
+/*====== recursive =====*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* reverseList(struct ListNode* head) {
+    if (!head) return NULL;
+    if (head->next == NULL) return head;
+    struct ListNode* rest = reverseList(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return rest;
+}
