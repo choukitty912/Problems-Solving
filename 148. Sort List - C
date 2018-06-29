@@ -37,7 +37,7 @@ struct ListNode* sortList(struct ListNode* head) {
     
     struct ListNode *slow = head, *fast = head, *prev = head;
     
-    while(fast) {
+    while(fast && fast->next) {
         prev = slow;
         slow = slow->next;
         fast = fast->next->next;        
