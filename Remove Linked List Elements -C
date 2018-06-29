@@ -1,0 +1,35 @@
+/*
+Remove all elements from a linked list of integers that have value val.
+
+Example:
+
+Input:  1->2->6->3->4->5->6, val = 6
+Output: 1->2->3->4->5
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+struct ListNode* removeElements(struct ListNode* head, int val) {
+    if (!head ) return NULL;
+    struct ListNode *temp = malloc(sizeof(struct ListNode));
+    temp->next = head;
+    struct ListNode *dummy = temp->next, *prev = temp;
+    while(dummy) {
+        if (dummy->val == val) {
+            prev->next = dummy->next;
+            printf("%d,",val);
+            dummy = dummy->next;
+        } else {
+           prev = dummy;
+           dummy = dummy->next;
+        }
+    }
+    head = temp->next;
+    free(temp);
+    return head;
+    
+}
