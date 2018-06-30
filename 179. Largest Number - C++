@@ -26,7 +26,10 @@ public:
         string ans;
         
         for (int i  = 0 ; i < nums.size(); i++) {
-            
+              if (nums[0] == 0) {
+                ans = "0";
+                return ans;
+            }
             ans += to_string(nums[i]);
         }
         return ans;
