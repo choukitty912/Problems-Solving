@@ -1,0 +1,58 @@
+/*
+Implement a basic calculator to evaluate a simple expression string.
+
+The expression string may contain open ( and closing parentheses ), the plus + or minus sign -, non-negative integers and empty spaces .
+
+Example 1:
+
+Input: "1 + 1"
+Output: 2
+Example 2:
+
+Input: " 2-1 + 2 "
+Output: 3
+Example 3:
+
+Input: "(1+(4+5+2)-3)+(6+8)"
+Output: 23
+*/
+class Solution {
+public:
+    int calculate(string s) {
+        int sum = 0 ;
+        int size = s.size();
+        int flag = 1;
+        int cur=0;
+        
+        
+        for (int i = 0 ; i < size; i++) {
+            if (s[i] <='9' && s[i]>= '0') {
+                cur = cur*10+s[i]-'0';
+                //cout << cur << endl;
+            } else if (s[i] == '-' || s[i] == '+') {
+                sum = sum + flag*cur;
+                flag = (s[i] == '+') ? 1 : -1;
+                cur = 0;
+                
+            } else if (s[i] == '(') {
+                int j = i;
+                int count = 0;
+                while ( i < size ) {
+                    if (s[i] == '(') {
+                        count++;
+                    } else if (s[i] ==')') {
+                        count--;
+                        
+                    }
+                    if (count == 0) break;
+                    
+                    i++;
+                }
+                cur = calculate(s.substr(j+1, i-j-1));
+            }       
+        }
+        sum = sum + flag*cur;
+    
+        return sum;
+    }
+};
