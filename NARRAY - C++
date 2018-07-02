@@ -1,0 +1,71 @@
+/*
+You are given a read only array of n integers from 1 to n.
+
+Each integer appears exactly once except A which appears twice and B which is missing.
+
+Return A and B.
+
+Note: Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+Note that in your output A should precede B.
+
+Example:
+
+Input:[3 1 2 5 3] 
+
+Output:[3, 4] 
+
+A = 3, B = 4
+*/
+vector<int> Solution::repeatedNumber(const vector<int> &A) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    int size = A.size();
+  
+    int x_or_A = 0, x_or_n = 0;
+    
+    for ( int i = 0; i<A.size(); i++) {
+        
+        x_or_A = x_or_A ^ A[i];
+        x_or_n = x_or_n ^ (i+1);
+    }
+    
+    int md = x_or_A ^ x_or_n;
+    
+    int set_m = md & ~(md-1);
+    int x =  0, y = 0;
+    
+    for (int i = 0; i < size; i++) {
+        if (set_m&A[i] )  {
+            x = x^A[i];
+        } else {
+            y = y^A[i];
+        }
+        
+    }
+
+
+    for ( int i = 1; i <= size; i++) {
+        if (set_m & i ) {
+            x =x^i;
+        } else {
+            y = y^i;
+        }
+    }
+    
+    vector <int> ans;
+    for (int i = 0; i < size; i++) {
+        if (A[i] == x)  {
+            ans.push_back(x);
+            ans.push_back(y);
+            return ans;
+        }
+    }
+    
+    ans.push_back(y);
+    ans.push_back(x);
+    return ans;
+    
+}
