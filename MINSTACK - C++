@@ -1,0 +1,60 @@
+/*Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+push(x) – Push element x onto stack.
+pop() – Removes the element on top of the stack.
+top() – Get the top element.
+getMin() – Retrieve the minimum element in the stack.
+Note that all the operations have to be constant time operations.
+
+Questions to ask the interviewer :
+
+Q: What should getMin() do on empty stack? 
+A: In this case, return -1.
+
+Q: What should pop do on empty stack? 
+A: In this case, nothing. 
+
+Q: What should top() do on empty stack?
+A: In this case, return -1
+*/
+
+ 
+
+stack<int> s;
+stack <int> min_s;
+
+ 
+   
+MinStack::MinStack() {
+    while (!s.empty()) s.pop();
+    while (!min_s.empty()) min_s.pop();
+    
+}
+
+void MinStack::push(int x) {
+    s.push(x);
+    if (min_s.empty()) {
+        min_s.push(x);
+    } else if (x <= min_s.top()) {
+        min_s.push(x);
+    }
+    
+}
+
+void MinStack::pop() {
+    if (s.empty()) return ;
+    if (min_s.top()==s.top()) {
+        min_s.pop();
+    }
+    s.pop();
+}
+
+int MinStack::top() {
+    if (s.empty()) return -1;
+    return s.top();
+}
+
+int MinStack::getMin() {
+    if (s.empty()) return -1;
+    return min_s.top();
+}
