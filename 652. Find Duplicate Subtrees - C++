@@ -1,0 +1,37 @@
+/*Given a binary tree, return all duplicate subtrees. For each kind of duplicate subtrees, you only need to return the root node of any one of them.
+
+Two trees are duplicate if they have the same structure with same node values.
+
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<TreeNode*> findDuplicateSubtrees(TreeNode* root) {
+        unordered_map <string, int> t_map;
+        vector <TreeNode*> ans;        
+        find_helper(root, t_map, ans);
+        return ans;
+    }
+    
+    string find_helper(TreeNode* root, unordered_map <string, int > &t_map, vector <TreeNode*> &ans) {
+        if (root == NULL) {
+          return "#";  
+        }
+        string temp = to_string(root->val) +","+find_helper(root->left, t_map, ans)+","+find_helper(root->right, t_map, ans);
+        if (t_map[temp] == 1) {
+            ans.push_back(root);
+        }
+        t_map[temp]++;
+        
+        return temp;
+    }
+    
+};
