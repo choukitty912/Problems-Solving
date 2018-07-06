@@ -1,0 +1,64 @@
+/*
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+*/
+
+/*==== recursive way ===== */
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+         vector <string> dict = {" ","","abc","def","ghi","jkl","mno","pqrs","tuv","wxyz"};
+        
+         if (digits.size() == 0) return {};
+        
+         vector<string> ans;
+        
+         string temp;
+        
+         letter_helper(dict, digits, 0, temp, ans );
+        
+         return ans;
+        
+    }
+    
+    void letter_helper(vector <string> dict, string digits, int level, string &temp, vector<string> & ans) {
+        if (level == digits.size()) {
+            ans.push_back(temp);
+            return;
+        }
+        
+        string cur = dict[digits[level]-'0'];
+        for (int i = 0; i < cur.size(); i++) {
+            temp.push_back(cur[i]);
+            letter_helper(dict, digits, level+1,temp, ans);
+            temp.pop_back();
+        }
+        
+        
+    }
+};
+
+/* ==== iterative way*/
+// Iterative
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        vector<string> res;
+        if (digits.empty()) return res;
+        string dict[] = {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        res.push_back("");
+        for (int i = 0; i < digits.size(); ++i) {
+            int n = res.size();
+            string str = dict[digits[i] - '2'];
+            for (int j = 0; j < n; ++j) {
+                string tmp = res.front();
+                res.erase(res.begin());
+                for (int k = 0; k < str.size(); ++k) {
+                    res.push_back(tmp + str[k]);
+                }
+            }
+        }
+        return res;
+    }
+};
