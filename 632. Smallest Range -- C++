@@ -1,0 +1,56 @@
+/*
+You have k lists of sorted integers in ascending order. Find the smallest range that includes at least one number from each of the k lists.
+
+We define the range [a,b] is smaller than range [c,d] if b-a < d-c or a < c if b-a == d-c.
+
+Example 1:
+Input:[[4,10,15,24,26], [0,9,12,20], [5,18,22,30]]
+Output: [20,24]
+Explanation: 
+List 1: [4, 10, 15, 24,26], 24 is in range [20,24].
+List 2: [0, 9, 12, 20], 20 is in range [20,24].
+List 3: [5, 18, 22, 30], 22 is in range [20,24].
+Note:
+The given list may contain duplicates, so ascending order means >= here.
+1 <= k <= 3500
+-105 <= value of elements <= 105.
+For Java users, please note that the input type has been changed to List<List<Integer>>. And after you reset the code template, you'll see this point.
+*/
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        int size_n = nums.size();
+        vector <pair<int,int>> f_num;
+        for (int i = 0 ; i < size_n; i++) {
+            for (int j = 0; j < nums[i].size(); j++) {
+                f_num.push_back({nums[i][j],i});
+            }
+        }
+        sort(f_num.begin(), f_num.end());
+        
+        int count = 0, diff = INT_MAX;
+        unordered_map<int,int> list_count;
+        vector<int> ans;
+        
+        int left = 0, right = 0; 
+        for (int right = 0 ; right < f_num.size(); right++) {
+            if (list_count[f_num[right].second] == 0) {count++;} // adding List count
+            list_count[f_num[right].second]++;// adding data count
+            // we now got a window where are lists are in, need to calculate the diff
+            while (count == size_n && left <= right) { //left <= right to cover one element case
+                int temp_diff = f_num[right].first - f_num[left].first;
+                if (temp_diff <diff) {
+                    diff = temp_diff;
+                    ans = {f_num[left].first, f_num[right].first};
+                }
+                //moving sliding window
+                list_count[f_num[left].second]--;
+                if (list_count[f_num[left].second] == 0) count--; 
+                left++;
+            }
+        }
+        return ans;
+        
+        
+    }
+};
