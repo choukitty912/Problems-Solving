@@ -1,0 +1,46 @@
+/*
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+
+Note: For the purpose of this problem, we define empty string as valid palindrome.
+
+Example 1:
+
+Input: "A man, a plan, a canal: Panama"
+Output: true
+Example 2:
+
+Input: "race a car"
+Output: false
+*/
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        int size = s.size();
+        if (size <= 1) return true;
+        int start = 0, end = size -1;
+        while(start <= end) {
+            int t1 = check_charcter(s[start]);
+            int t2 = check_charcter(s[end]);
+            //cout<<start<<" "<<t1<<","<<s[end]<<","<<t2<<endl;
+            if (t1 != -1 && t2 !=-1) {
+                if (t1 == t2) {
+                    start++;
+                    end--;
+                } else {
+                    return false;
+                }
+            } else if (t1 == -1) {
+                start++;
+            } else {
+                end--;
+            }
+        }
+        return true;
+    }
+    int check_charcter(char c) {
+        if ( c<= 'z' && c>='a') return c-'a'+'A';
+        if ( c<= 'Z' && c>='A') return c;
+        if ( c<= '9' && c>='0') return c;
+        return -1;
+    }
+};
