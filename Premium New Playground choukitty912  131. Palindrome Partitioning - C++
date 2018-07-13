@@ -1,0 +1,56 @@
+/*
+Given a string s, partition s such that every substring of the partition is a palindrome.
+
+Return all possible palindrome partitioning of s.
+
+Example:
+
+Input: "aab"
+Output:
+[
+  ["aa","b"],
+  ["a","a","b"]
+]
+*/
+class Solution {
+public:
+    vector<vector<string>> partition(string s) {
+        int size = s.size();
+        vector<vector<string>> res;
+        if (size == 0) return res;
+        
+        
+        vector<string> temp;
+        helper_p(s, 0, res, temp);
+        return res;
+    }
+    
+    void helper_p(string s, int start, vector<vector<string>> &res, vector<string> &temp) {
+       
+        if (start >= s.size()) {
+            res.push_back(temp);
+            return;
+        }
+        for (int i = start; i< s.size(); i++) {
+            string s_temp = s.substr(start, i-start+1 );
+            if (is_palindrome(s_temp)) {
+               temp.push_back(s_temp);
+               helper_p(s, i+1, res, temp);
+               temp.pop_back();
+            }
+        }
+    }
+    
+    bool is_palindrome(string s) {
+        int size = s.size();
+        if (size == 0) return false;
+        if (size==1) return true;
+        int i = 0, j = size-1;
+        while (i<=j) {
+            if (s[i] != s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+};
