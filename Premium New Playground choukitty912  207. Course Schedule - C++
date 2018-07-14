@@ -1,0 +1,60 @@
+/*
+There are a total of n courses you have to take, labeled from 0 to n-1.
+
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+
+Given the total number of courses and a list of prerequisite pairs, is it possible for you to finish all courses?
+
+Example 1:
+
+Input: 2, [[1,0]] 
+Output: true
+Explanation: There are a total of 2 courses to take. 
+             To take course 1 you should have finished course 0. So it is possible.
+Example 2:
+
+Input: 2, [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take. 
+             To take course 1 you should have finished course 0, and to take course 0 you should
+             also have finished course 1. So it is impossible.
+Note:
+
+The input prerequisites is a graph represented by a list of edges, not adjacency matrices. Read more about how a graph is represented.
+You may assume that there are no duplicate edges in the input prerequisites.
+*/
+class Solution {
+public:
+    bool canFinish(int numCourses, vector<pair<int, int>>& prerequisites) {
+        int size =  prerequisites.size();
+        if (size == 0 ) return true;
+        
+        unordered_map<int, multiset<int>> p_map;
+        
+        
+        for (auto it: prerequisites) {
+            p_map[it.first].insert(it.second);            
+        }
+        
+        for ( int i = 0; i < numCourses; i++) {
+            vector<int> p_visited (numCourses, 0);
+            if (!helper_p (p_map, p_visited, i)) return false;
+        }
+       
+        return true;
+    }
+    
+    bool helper_p(unordered_map<int, multiset<int>> &p_map,vector<int> &p_visited, int course ){
+       
+        while (p_map[course].empty() == false) {
+             p_visited[course] = 1;
+            int t_course = *p_map[course].begin();
+            if (p_visited[t_course] == 1) return false;
+            if (helper_p(p_map,p_visited, t_course) == false) return false;
+            p_map[course].erase(p_map[course].begin());
+            p_visited[course] = 0;
+        }
+   
+        return true;
+    }
+};
