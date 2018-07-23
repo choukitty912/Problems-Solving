@@ -1,0 +1,53 @@
+/*
+You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example
+
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807.
+*/
+ListNode* Solution::addTwoNumbers(ListNode* A, ListNode* B) {
+    // Do not write main() function.
+    // Do not read input, instead use the arguments to the function.
+    // Do not print the output, instead return values as specified
+    // Still have a doubt. Checkout www.interviewbit.com/pages/sample_codes/ for more details
+    if (!A) return B;
+    if (!B) return A;
+    
+
+    ListNode *dummy = A;
+    int car = 0;
+    ListNode *prevA, *prevB;
+
+    while (A && B) {
+        int sum = (A->val+B->val+car) % 10;
+        car = (A->val+B->val+car) / 10;
+        A->val = sum;
+        if (!A->next) prevA= A;
+        A = A->next;
+        B = B->next;
+    }
+    
+    if (!A) {
+        prevA->next = B;
+        A = prevA->next;
+    }
+    
+    while(A) {
+        int sum = (A->val + car)%10;
+        car = (A->val+car)/10;
+        A->val = sum;
+        if (!A->next) prevA= A;
+        A= A->next;
+    }
+    
+    if (car){
+        prevA->next = new ListNode(car);
+    }
+    
+    return dummy;
+     
+}
