@@ -1,0 +1,57 @@
+/*
+Given a Binary Search Tree and a target number, return true if there exist two elements in the BST such that their sum is equal to the given target.
+
+Example 1:
+
+Input: 
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 9
+
+Output: True
+ 
+
+Example 2:
+
+Input: 
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+Target = 28
+
+Output: False
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool findTarget(TreeNode* root, int k) {
+        unordered_map <int,int> index;
+        return helper(root, k, index);
+    }
+    
+    bool helper(TreeNode* root, int k, unordered_map <int,int> &index) {
+        if (!root) return false;
+        int temp = k - root->val;
+        if (index.count(temp) == 0) {
+            index[root->val] = 1;
+        } else {
+            return true;
+        }
+        return (helper(root->left, k, index) || helper(root->right, k, index));
+    }
+};
