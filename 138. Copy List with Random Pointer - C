@@ -53,3 +53,31 @@ struct RandomListNode *copyRandomList(struct RandomListNode *head) {
     
     
 }
+
+
+class Solution {
+public:
+   Node* copyRandomList(Node* head) {
+        // if (!head) return head;
+         Node *l1, *l2, *dummy;
+         dummy = new Node(0,NULL,NULL);
+         unordered_map<Node*, Node*> key; 
+        
+         for (l1 = head, l2 = dummy; 
+              l1 != NULL; 
+              l1 = l1->next, l2 = l2->next ) {
+              l2->next = new Node(l1->val,NULL,NULL);
+              key[l1] = l2->next;
+         }
+         
+         for (l1 = head, l2 = dummy->next;
+              l1 != NULL;
+              l1 = l1->next, l2 = l2->next) {
+              l2->random = key[l1->random];
+         }
+        
+         return dummy->next;
+        
+    }
+
+};
