@@ -1,0 +1,117 @@
+#include <iostream>
+#include <vector>
+#include <new>
+using namespace std;
+struct Node {
+    int val;
+    Node *next;
+    Node(int x): val(x), next(NULL) {}
+};
+/*
+
+Node *deleteNode(Node *head, int val){
+    if (head == NULL) {
+        return NULL;
+    }
+    
+    Node *dummy = new Node(0);
+    dummy->next = head;
+    Node *cur, *prev;
+    cur = dummy->next;
+    prev = dummy;
+    
+    while (cur) {
+        if (cur->val == val) {
+            prev->next = cur->next;
+        }
+        cur = cur->next;
+        prev = prev->next;
+    } 
+    return dummy->next;
+    
+}
+//insertNode at head
+Node *insertNode(Node *head, int val) {
+    Node* new_head = new Node(val);
+    new_head->next = head;
+    return new_head;
+}
+*/
+void insertNode(Node **head_ptr, int val) {
+    if (*head_ptr == NULL) {
+        Node *head = new Node(val);
+        *head_ptr = head;
+        return;
+    }
+    
+    Node *prev, *cur, *new_node;
+    prev = NULL;
+    cur = *head_ptr;
+    new_node = new Node(val);
+    while(cur) {
+        if (cur->val < val) {
+            prev = cur;
+            cur = cur->next;
+        } else {
+            if (prev == NULL) {
+                new_node->next = cur;
+                *head_ptr = new_node;
+            }else{
+                prev->next = new_node;
+                new_node->next = cur;
+            }
+            break;
+        }
+    }
+    
+    if (cur == NULL) {
+        prev->next = new_node;
+    }
+}
+void printLinkedlist(Node *head) {
+
+    cout<<endl<<"Print Linked List:"<<endl;
+    while (head){
+        cout<<head->val<<" ";
+        head = head->next;
+    }
+    
+}
+
+void deleteNode(Node **head_ptr, int val){
+    Node *prev, *cur;
+    cur = *head_ptr;
+    prev = NULL;
+    
+    while(cur) {
+        if (cur->val == val) {
+            if (prev == NULL) {
+                *head_ptr = cur->next;
+            } else {
+                prev->next = cur->next;
+            }
+            delete(cur);
+            break;
+        } else {
+            prev = cur;
+            cur = cur->next;
+        }
+    }
+}
+
+int main()
+{
+    vector<int> value = {2, 8, 1, 4, 6,7};
+    Node *head = NULL;
+    for (int i = 0; i < value.size(); i++) {
+        insertNode(&head, value[i]);
+    }
+    printLinkedlist(head);
+    deleteNode(&head, 1);
+    printLinkedlist(head);
+    deleteNode(&head, 2);
+    printLinkedlist(head);
+    deleteNode(&head, 8);
+    printLinkedlist(head);
+    return 0;
+}
