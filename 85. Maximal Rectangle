@@ -1,0 +1,58 @@
+/*
+Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+
+Example:
+
+Input:
+[
+  ["1","0","1","0","0"],
+  ["1","0","1","1","1"],
+  ["1","1","1","1","1"],
+  ["1","0","0","1","0"]
+]
+Output: 6
+*/
+class Solution {
+public:
+    
+    int maximalRectangle(vector<vector<char>>& matrix) {
+        int res = 0;
+        int size = matrix.size();
+        vector<int> heights;
+        
+        for (int i = 0 ; i < size; i++) {
+            int column = matrix[i].size();
+            heights.resize(column);
+            for (int j = 0; j < column; j++) {
+                heights[j] = matrix[i][j] == '0' ? 0 : (1 + heights[j]);
+            }
+            res = max(res, largestRectangleArea(heights));
+        }
+        return res;
+        
+    }
+    
+    int largestRectangleArea(vector<int>& heights) {
+        heights.push_back(0);
+        stack <int> st;
+        int size = heights.size();
+        int i = 0;
+        int res = 0;
+        while (i < size) {
+            if (st.empty() || heights[st.top()] <= heights[i]) {
+                st.push(i++);
+            } else {
+                int temp = st.top();
+                st.pop();
+                int length;
+                if (st.empty()) {
+                    length = i;
+                } else {
+                    length = i - st.top() -1;
+                }
+                res = max(res, heights[temp] * length);
+             }
+        }
+        return res;
+    }
+};
