@@ -1,0 +1,36 @@
+/*
+Given a non-empty array of integers, every element appears three times except for one, which appears exactly once. Find that single one.
+
+Note:
+
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+
+Example 1:
+
+Input: [2,2,3,2]
+Output: 3
+Example 2:
+
+Input: [0,1,0,1,0,1,99]
+Output: 99
+*/
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int bit = sizeof(int) * 8;
+        vector <int> bit_count(bit, 0);
+        int res = 0;
+    
+        for (int i = 0; i < nums.size(); i++) {
+            for(int j = 0; j < bit; j++) {           
+                bit_count[j] += (nums[i]>>j)  & 0x1;
+            }
+        }
+    
+        for (int i = 0; i < bit; i++) {
+            bit_count[i] = bit_count[i] % 3;
+            res |= bit_count[i]<<i;
+        }
+        return res;
+    }
+};
