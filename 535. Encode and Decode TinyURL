@@ -1,0 +1,76 @@
+/*
+Note: This is a companion problem to the System Design problem: Design TinyURL.
+TinyURL is a URL shortening service where you enter a URL such as https://leetcode.com/problems/design-tinyurl and it returns a short URL such as http://tinyurl.com/4e9iAk.
+
+Design the encode and decode methods for the TinyURL service. There is no restriction on how your encode/decode algorithm should work. You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.
+
+*/
+class Solution {
+public:
+    Solution () {
+        srand(time(NULL));
+        id = 0;
+        id = rand()%10;
+        id += 62*62*62*62*62*62;
+        //cout<<"id : "<<id<<endl;
+        
+    }
+
+    // Encodes a URL to a shortened URL.
+    string encode(string longUrl) {
+        string shortUrl;
+        shortUrl = encoded(id);
+        id2long[id] = longUrl;
+        id2short[id] = shortUrl;
+        
+        return "http://tinyurl.com/"+shortUrl;
+    }
+
+    // Decodes a shortened URL to its original URL.
+    string decode(string shortUrl) {
+        int search_id = decoded(shortUrl);
+        string longUrl = "";
+        if (id2long.count(search_id)) {
+            longUrl= id2long[search_id];
+        }
+        return longUrl;
+    }
+private:
+    unordered_map <uint64_t, string> id2long, id2short;
+    uint64_t id;
+    string encoded(uint64_t input_id) {
+        char map[] = "abcdefghijklmnopqrstuvwxyzABCDEF"
+                 "GHIJKLMNOPQRSTUVWXYZ0123456789";
+        string shortUrl = "";
+        while(input_id){
+            uint64_t t = input_id % 62;
+            shortUrl += map[t]; 
+           
+            //cout<<input_id<< " "<<map[t]<< " "<<t<<endl;
+             input_id = input_id/62;
+        } 
+       // cout<<"shortUrl :"<<shortUrl<<endl;
+        return shortUrl;
+    }
+    
+    uint64_t decoded(string shortUrl) {
+        uint64_t search_id = 0, count = 0;
+        for (int i =  shortUrl.size()-1; i >= shortUrl.size()-6; i--) {
+            if (shortUrl[i]<='z' && shortUrl[i] >='a') {
+                search_id = search_id*62+ (shortUrl[i]-'a'); 
+            } else if (shortUrl[i]<='Z' && shortUrl[i] >='A') {
+                search_id = search_id*62+ (shortUrl[i]-'A') +26;
+            } else if (shortUrl[i]<='9' && shortUrl[i] >='0') {
+                search_id = search_id*62+ (shortUrl[i]-'0') +52;
+            } 
+            //cout<<shortUrl[i]<<" "<< search_id<<endl;
+        }
+        //cout<<"decode"<< search_id<<endl;
+        return search_id;
+    }
+
+};
+
+// Your Solution object will be instantiated and called as such:
+// Solution solution;
+// solution.decode(solution.encode(url));
