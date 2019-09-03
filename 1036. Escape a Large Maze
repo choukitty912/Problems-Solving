@@ -1,0 +1,83 @@
+/*
+In a 1 million by 1 million grid, the coordinates of each grid square are (x, y) with 0 <= x, y < 10^6.
+
+We start at the source square and want to reach the target square.  Each move, we can walk to a 4-directionally adjacent square in the grid that isn't in the given list of blocked squares.
+
+Return true if and only if it is possible to reach the target square through a sequence of moves.
+
+ 
+
+Example 1:
+
+Input: blocked = [[0,1],[1,0]], source = [0,0], target = [0,2]
+Output: false
+Explanation: 
+The target square is inaccessible starting from the source square, because we can't walk outside the grid.
+Example 2:
+
+Input: blocked = [], source = [0,0], target = [999999,999999]
+Output: true
+Explanation: 
+Because there are no blocked cells, it's possible to reach the target square.
+ 
+
+Note:
+
+0 <= blocked.length <= 200
+blocked[i].length == 2
+0 <= blocked[i][j] < 10^6
+source.length == target.length == 2
+0 <= source[i][j], target[i][j] < 10^6
+source != target
+*/
+class Solution {
+public:
+    struct hash_pair { 
+    template <class T1, class T2> 
+    size_t operator()(const pair<T1, T2>& p) const
+    { 
+        auto hash1 = hash<T1>{}(p.first); 
+        auto hash2 = hash<T2>{}(p.second); 
+        return hash1 ^ hash2; 
+    } 
+   }; 
+    
+    bool check_surrounded(unordered_set <pair<int, int>, hash_pair> &b, int si, int sj, int di, int dj) {
+        unordered_set <pair<int,int>, hash_pair> visited;
+        queue <pair<int,int>> q;
+        visited.insert({si,sj});
+        q.push({si, sj});
+        vector<vector<int>> dirs = {{0,1}, {0, -1},{1,0},{-1,0}};
+        
+        while (!q.empty()) {
+            if (visited.size() > b.size() * b.size()/2) return true;
+            auto t = q.front();
+            q.pop();
+            if (t.first == di && t.second == dj) return true;
+            for (auto d:dirs) {
+                int x = t.first, y = t.second;
+                x += d[0];
+                y += d[1];
+                if (x < 0 || x >= 1000000 || y < 0 || y >= 1000000 || visited.find({x,y}) != visited.end() || b.find({x,y}) != b.end()) continue;
+                visited.insert({x,y});
+                q.push({x,y});
+                
+            
+            }
+            
+        }
+        return false;
+        
+        
+    }
+    
+    bool isEscapePossible(vector<vector<int>>& blocked, vector<int>& source, vector<int>& target) {
+        unordered_set <pair<int,int>, hash_pair> b;
+        
+        for (auto block: blocked) {
+            b.insert({block[0], block[1]});
+        }
+        
+        return check_surrounded(b, source[0], source[1], target[0], target[1]) && check_surrounded(b, target[0], target[1], source[0], source[1]) ;
+    }
+};
