@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int minDominoRotations(vector<int>& A, vector<int>& B) {
+        if (A.size() == 0 || B.size() == 0) return -1;
+        int size = A.size();
+        int count_A[6] = {0}, count_B[6] ={0}, count_AB[6] ={0};
+        for (int i = 0; i < size; i++) {
+            if (A[i] == B[i]) {
+                count_AB[A[i]-1]++;
+                continue;
+            }
+            count_A[A[i]-1]++;
+            count_B[B[i]-1]++;
+        }
+        int min_swap = INT_MAX;
+        for (int i = 0; i<6; i++) {
+            if (count_A[i] + count_B[i] + count_AB[i] >= size) {
+                int tmp = min(count_A[i], count_B[i]);
+                min_swap = min(tmp, min_swap);
+            }
+        }
+        if (min_swap == INT_MAX) return -1;
+        return min_swap;
+    }
+};
