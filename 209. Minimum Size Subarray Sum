@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        // length of the nums
+        int n = nums.size();
+
+        // initialize the start and end pointer
+        int start = 0, end = 0;
+
+        // Initialize the  sum and the min_len
+        int current_sum = 0;
+
+        int min_len = INT_MAX;
+
+        while (end < n) {
+            current_sum += nums[end];
+
+            // while the sum is larger or equal  than target
+
+            while (current_sum >= target) {
+                min_len = std::min(min_len, end - start + 1);
+                current_sum -= nums[start];
+                start++;
+            }
+            end++;
+        }
+
+        return min_len != INT_MAX ? min_len : 0;
+
+        
+    }
+};
