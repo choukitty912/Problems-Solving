@@ -67,3 +67,22 @@ public:
         return k;
     }
 };
+
+#include <vector>
+
+class Solution {
+public:
+    int removeDuplicates(std::vector<int>& nums) {
+        int j = 0;  // j is used to track the position of next valid element
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (j < 2 || nums[i] > nums[j - 2]) {
+                nums[j] = nums[i];
+                j++;
+            }
+        }
+
+        return j;
+    }
+};
+
