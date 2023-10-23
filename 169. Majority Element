@@ -47,3 +47,40 @@ public:
         return nums[nums.size()/2];
     }
 };
+The problem you're referring to can be solved using the Boyer-Moore Voting Algorithm. It's an efficient method that works in 
+O(n) time and  O(1) space to find the majority element in an array.
+
+Here's the idea behind the algorithm:
+
+We maintain a candidate for the majority element and a count.
+As we iterate through the array:
+If the count is zero, we set the current element as the candidate.
+If the current element equals the candidate, we increment the count.
+Otherwise, we decrement the count.
+By the end of this process, the candidate will be the majority element.
+The reason this works is that the majority element appears more than 
+n/2 times, which means there is a surplus of the majority element over any other element.
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        
+        int count = 0;
+        int candidate = 0;
+    
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
+            }
+        
+            count += (num == candidate) ? 1 : -1;
+        }
+
+    // Given the problem's constraints, we are sure that the majority element always exists,
+    // so there's no need to verify the candidate. 
+    // But in a general scenario, you'd make a second pass to verify that the candidate 
+    // really is a majority element.
+
+        return candidate;
+    }
+};
