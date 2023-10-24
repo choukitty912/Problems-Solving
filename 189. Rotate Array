@@ -38,3 +38,18 @@ public:
         reverse_array(nums, 0, size-1);
     }
 };
+
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int size = nums.size()
+        if (size == 0) return;
+        k = k % size;
+        if (k == 0) return;
+        
+        for (int i = 0 ; i < size; i++) {
+            
+        }
+    }
+};
