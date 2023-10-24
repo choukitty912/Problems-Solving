@@ -47,6 +47,8 @@ public:
         return nums[nums.size()/2];
     }
 };
+
+/*
 The problem you're referring to can be solved using the Boyer-Moore Voting Algorithm. It's an efficient method that works in 
 O(n) time and  O(1) space to find the majority element in an array.
 
@@ -60,7 +62,7 @@ Otherwise, we decrement the count.
 By the end of this process, the candidate will be the majority element.
 The reason this works is that the majority element appears more than 
 n/2 times, which means there is a surplus of the majority element over any other element.
-
+*/
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
