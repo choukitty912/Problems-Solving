@@ -1,0 +1,96 @@
+/*
+Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+
+Each letter in magazine can only be used once in ransomNote.
+
+ 
+
+Example 1:
+
+Input: ransomNote = "a", magazine = "b"
+Output: false
+Example 2:
+
+Input: ransomNote = "aa", magazine = "ab"
+Output: false
+Example 3:
+
+Input: ransomNote = "aa", magazine = "aab"
+Output: true
+ 
+
+Constraints:
+
+1 <= ransomNote.length, magazine.length <= 105
+ransomNote and magazine consist of lowercase English letters.
+*/
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        std::vector<int> alphabet_count(26, 0);
+        int len_r = ransomNote.size();
+        int len_m = magazine.size();
+        if (len_r > len_m) {
+            return false;
+        }
+        for (int i = 0; i < len_m; i++) {
+            alphabet_count[magazine[i]-'a']++;
+        }
+        
+        for (int j = 0; j < len_r; j++) {
+            if ((--alphabet_count[ransomNote[j]-'a']) < 0) {
+                return false;
+            }
+            
+        }
+        return true;
+    }
+};
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        vector<int> freq(26, 0);
+
+        // Count the frequency of each character in magazine
+        for (char c : magazine) {
+            freq[c - 'a']++;
+        }
+
+        // Try to use each character of ransomNote from the magazine
+        for (char c : ransomNote) {
+            if (--freq[c - 'a'] < 0) {
+                return false;  // This character isn't available enough times
+            }
+        }
+
+        return true;  // If we haven't returned false by now, the note can be constructed
+    }
+};
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        vector<int> freq(26, 0);
+
+        // Count the frequency of each character in magazine
+        for (char c : magazine) {
+            freq[c - 'a']++;
+        }
+
+        // Try to use each character of ransomNote from the magazine
+        for (char c : ransomNote) {
+            if (--freq[c - 'a'] < 0) {
+                return false;  // This character isn't available enough times
+            }
+        }
+
+        return true;  // If we haven't returned false by now, the note can be constructed
+    }
+};
+
+
+
+
+
+
