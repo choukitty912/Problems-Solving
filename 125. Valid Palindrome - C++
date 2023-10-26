@@ -44,3 +44,71 @@ public:
         return -1;
     }
 };
+
+class Solution {
+public:
+    bool isAlphanumeric (char c) {
+        if (( c >= 'a' && c <='z') || (c >='A' && c <= 'Z') || (c >='0' && c <='9')) {
+           return true;
+        } 
+        return false;
+    } 
+
+    bool isSame (char c1, char c2) {
+        if (c1 >='0' && c1 <='9') {
+            if (c1 == c2) {
+                return true;
+            }
+            return false ;
+        } else if ((c1 == c2) || (abs(c1 - c2) == 32)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    bool isPalindrome(string s) {
+        int len = s.size();
+        int i = 0, j = len - 1;
+        while (i < j) {
+            if (!isAlphanumeric(s[i])) {
+                i++;
+                continue;
+            }
+            if (!isAlphanumeric(s[j])) {
+                j--;
+                continue;
+            }
+            //cout << s[i] << " : " << s[j] << "\n";
+            if (!isSame(s[i], s[j])) {
+                return false;
+            }
+            i++;
+            j--;
+        }
+        return true;
+    }
+};
+lass Solution {
+public:
+    bool isPalindrome(string s) {
+        int left = 0, right = s.length() - 1;
+        
+        while (left < right) {
+            // Skip non-alphanumeric characters from the left
+            while (left < right && !isalnum(s[left])) left++;
+            
+            // Skip non-alphanumeric characters from the right
+            while (left < right && !isalnum(s[right])) right--;
+            
+            // Compare the characters, ignoring case
+            if (tolower(s[left]) != tolower(s[right])) return false;
+            
+            left++;
+            right--;
+        }
+        
+        return true;
+    }
+};
