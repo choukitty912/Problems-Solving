@@ -58,12 +58,12 @@ public:
 class Solution {
 public:
     bool isIsomorphic(string s, string t) {
-        unordered_map<char, char> stMap; // Maps characters from s to t
-        unordered_map<char, char> tsMap; // Maps characters from t to s
+        vector<int> stMap(256, -1); // Maps characters from s to t
+        vector<int> tsMap(256, -1); // Maps characters from t to s
 
         for(int i = 0; i < s.size(); i++) {
             // If the mapping doesn't exist in either of the maps, establish it
-            if(stMap.find(s[i]) == stMap.end() && tsMap.find(t[i]) == tsMap.end()) {
+            if(stMap[s[i]] == -1 && tsMap[t[i]] == -1) {
                 stMap[s[i]] = t[i];
                 tsMap[t[i]] = s[i];
             }
