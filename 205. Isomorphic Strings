@@ -27,7 +27,7 @@ Constraints:
 t.length == s.length
 s and t consist of any valid ascii character.
 */
-lass Solution {
+class Solution {
 public:
     bool isIsomorphic(string s, string t) {
         vector<int> char_map(256, -1);
