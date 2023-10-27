@@ -1,0 +1,77 @@
+/*
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+ 
+
+Example 1:
+
+Input: s = "egg", t = "add"
+Output: true
+Example 2:
+
+Input: s = "foo", t = "bar"
+Output: false
+Example 3:
+
+Input: s = "paper", t = "title"
+Output: true
+ 
+
+Constraints:
+
+1 <= s.length <= 5 * 104
+t.length == s.length
+s and t consist of any valid ascii character.
+*/
+lass Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        vector<int> char_map(256, -1);
+        vector<int> map_count(256, 0);
+
+        int s_len = s.size();
+        int t_len = t.size();
+        if (s_len != t_len) {
+            return false;
+        }
+
+        for (int i = 0; i < s_len; i++) {
+            if (char_map[s[i]] == -1 ) {
+                if (map_count[t[i]] != 0) {
+                    return false;
+                }
+                char_map[s[i]] = t[i];
+                map_count[t[i]] = 1;
+
+            } else if (char_map[s[i]] != t[i]) {
+                return false;
+            }
+        }
+        return true;
+        
+    }
+};
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char> stMap; // Maps characters from s to t
+        unordered_map<char, char> tsMap; // Maps characters from t to s
+
+        for(int i = 0; i < s.size(); i++) {
+            // If the mapping doesn't exist in either of the maps, establish it
+            if(stMap.find(s[i]) == stMap.end() && tsMap.find(t[i]) == tsMap.end()) {
+                stMap[s[i]] = t[i];
+                tsMap[t[i]] = s[i];
+            }
+            // If the mapping exists but is not consistent, return false
+            else if(stMap[s[i]] != t[i] || tsMap[t[i]] != s[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+};
