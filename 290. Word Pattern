@@ -1,0 +1,107 @@
+/*
+Given a pattern and a string s, find if s follows the same pattern.
+
+Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s.
+
+ 
+
+Example 1:
+
+Input: pattern = "abba", s = "dog cat cat dog"
+Output: true
+Example 2:
+
+Input: pattern = "abba", s = "dog cat cat fish"
+Output: false
+Example 3:
+
+Input: pattern = "aaaa", s = "dog cat cat dog"
+Output: false
+ 
+
+Constraints:
+
+1 <= pattern.length <= 300
+pattern contains only lower-case English letters.
+1 <= s.length <= 3000
+s contains only lowercase English letters and spaces ' '.
+s does not contain any leading or trailing spaces.
+All the words in s are separated by a single space.
+*/
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        vector<string> pattern_map(26, "");
+        unordered_map <string, int> reverse_map;
+
+        int i = 0, j=0;
+        for(; i < pattern.size() && j < s.size(); i++) {
+            while (j < s.size() && s[j] == ' ') {
+                j++;
+            }
+            int k = j;
+            while (k < s.size() && s[k] != ' ') {
+                k++;
+            }
+
+            string s_sub =  s.substr(j, k-j+1);
+            if ( k == s.size()) {
+                s_sub.append(" ");
+            }
+           
+            if (pattern_map[pattern[i] - 'a'].empty()) {
+                if (reverse_map.find(s_sub) != reverse_map.end()) {
+                    return false;
+                }
+                pattern_map[pattern[i] - 'a'] = s_sub;
+                reverse_map[s_sub] = 1;
+            } else if (pattern_map[pattern[i] - 'a'] != s_sub) {
+                return false;
+            }
+            j = k;
+        }
+
+        if (i == pattern.size() && j == s.size()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+};
+
+class Solution {
+public:
+bool wordPattern(string pattern, string str) {
+    unordered_map<char, string> charToWord;
+    unordered_map<string, char> wordToChar;
+    
+    stringstream ss(str);
+    string word;
+    vector<string> words;
+    
+    while (ss >> word) {
+        words.push_back(word);
+    }
+    
+    if (pattern.size() != words.size()) return false;
+    
+    for (int i = 0; i < pattern.size(); ++i) {
+        char c = pattern[i];
+        word = words[i];
+        
+        // If the mapping does not exist in one of the maps, it should not exist in the other as well
+        if (charToWord.find(c) == charToWord.end()) {
+            if (wordToChar.find(word) != wordToChar.end()) {
+                return false;
+            } else {
+                charToWord[c] = word;
+                wordToChar[word] = c;
+            }
+        } else if (charToWord[c] != word) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+};
