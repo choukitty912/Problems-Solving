@@ -60,3 +60,34 @@ public:
         return false;
     }
 };
+
+#include <stack>
+#include <unordered_map>
+
+class Solution {
+public:
+    bool isValid(string s) {
+        std::stack<char> stack;
+        std::unordered_map<char, char> mapping = {{')', '('}, {']', '['}, {'}', '{'}};
+        for (char c : s) {
+            // If the current character is a closing bracket.
+            if (mapping.count(c)) {
+                // Get the top element of the stack. If the stack is empty, set a dummy value of '#'
+                char top_element = stack.empty() ? '#' : stack.top();
+                // If the stack is not empty, pop the top element.
+                if (!stack.empty()) {
+                    stack.pop();
+                }
+                // If the mapping for the current bracket doesn't match the stack's top element, return false.
+                if (top_element != mapping[c]) {
+                    return false;
+                }
+            } else {
+                // If it was an opening bracket, push to the stack.
+                stack.push(c);
+            }
+        }
+        // If the stack still contains elements, then it is an invalid expression.
+        return stack.empty();
+    }
+};
