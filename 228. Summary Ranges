@@ -1,0 +1,103 @@
+/*
+You are given a sorted unique integer array nums.
+
+A range [a,b] is the set of all integers from a to b (inclusive).
+
+Return the smallest sorted list of ranges that cover all the numbers in the array exactly. That is, each element of nums is covered by exactly one of the ranges, and there is no integer x such that x is in one of the ranges but not in nums.
+
+Each range [a,b] in the list should be output as:
+
+"a->b" if a != b
+"a" if a == b
+ 
+
+Example 1:
+
+Input: nums = [0,1,2,4,5,7]
+Output: ["0->2","4->5","7"]
+Explanation: The ranges are:
+[0,2] --> "0->2"
+[4,5] --> "4->5"
+[7,7] --> "7"
+Example 2:
+
+Input: nums = [0,2,3,4,6,8,9]
+Output: ["0","2->4","6","8->9"]
+Explanation: The ranges are:
+[0,0] --> "0"
+[2,4] --> "2->4"
+[6,6] --> "6"
+[8,9] --> "8->9"
+ 
+
+Constraints:
+
+0 <= nums.length <= 20
+-231 <= nums[i] <= 231 - 1
+All the values of nums are unique.
+nums is sorted in ascending order.
+*/
+class Solution {
+public:
+    vector<string> summaryRanges(vector<int>& nums) {
+        vector<string> summary;
+        int len = nums.size();
+        if (len == 0) {
+            return summary;
+        }
+        string temp_str;
+
+        if (len == 1) {
+           summary.push_back(to_string(nums[0]));
+           return summary;
+        }
+
+        int start = nums[0], end = nums[0];
+        for (int i = 1 ; i < len; i++) {
+            if (((long long)nums[i] - (long long)end) > 1) {
+                end = nums[i-1];
+                if (start != end ) {
+                    temp_str = to_string(start) + "->" + to_string(end);
+                } else {
+                    temp_str = to_string(start);
+                }
+                summary.push_back(temp_str);
+                start = nums[i];
+            }
+            end = nums[i];
+        }
+        if (start != end ) {
+            temp_str = to_string(start) + "->" + to_string(end);
+        } else {
+            temp_str = to_string(start);
+        }
+        summary.push_back(temp_str);
+        return summary;
+    }
+};
+
+class Solution {
+public:
+    std::vector<std::string> summaryRanges(std::vector<int>& nums) {
+        std::vector<std::string> ranges;
+        if (nums.empty()) return ranges; // Return an empty vector if nums is empty.
+
+        for (int i = 0; i < nums.size(); ++i) {
+            int start = nums[i];
+            // Keep incrementing i as long as we have a consecutive sequence.
+            while (i + 1 < nums.size() && nums[i + 1] == nums[i] + 1) {
+                i++;
+            }
+            int end = nums[i];
+            // If start and end are the same, it means the range is a single number.
+            if (start == end) {
+                ranges.push_back(std::to_string(start));
+            } else {
+                // Otherwise, we add a range in the format "start->end".
+                ranges.push_back(std::to_string(start) + "->" + std::to_string(end));
+            }
+        }
+
+        return ranges;
+    }
+};
