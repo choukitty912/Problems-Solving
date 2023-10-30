@@ -37,3 +37,27 @@ public:
         
     }
 };
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if (root == NULL) {
+            return 0; // The depth of an empty tree is 0.
+        }
+        // Compute the depth of each subtree.
+        int leftDepth = maxDepth(root->left);
+        int rightDepth = maxDepth(root->right);
+        // The depth of the tree is the max of the depth of left and right subtree plus 1 (for the root).
+        return std::max(leftDepth, rightDepth) + 1;
+    }
+};
