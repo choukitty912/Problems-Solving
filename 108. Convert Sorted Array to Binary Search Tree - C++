@@ -38,3 +38,59 @@ public:
         return root;
     }
 };
+#include <iostream>
+#include <vector>
+#include <queue>
+
+// Definition for a binary tree node.
+struct TreeNode {
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
+
+TreeNode* sortedArrayToBST(std::vector<int>& nums) {
+    // Check if the input vector is empty
+    if (nums.empty()) {
+        return nullptr;
+    }
+
+    // Find the middle element of the sorted array
+    int mid = nums.size() / 2;
+
+    // Create a new TreeNode with the middle element as the root
+    TreeNode* root = new TreeNode(nums[mid]);
+
+    // Recursively construct the left and right subtrees
+    std::vector<int> leftSubArray(nums.begin(), nums.begin() + mid);
+    std::vector<int> rightSubArray(nums.begin() + mid + 1, nums.end());
+
+    root->left = sortedArrayToBST(leftSubArray);
+    root->right = sortedArrayToBST(rightSubArray);
+
+    return root;
+}
+
+// Function to print the inorder traversal of a binary tree (for verification)
+void inorderTraversal(TreeNode* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    inorderTraversal(root->left);
+    std::cout << root->val << " ";
+    inorderTraversal(root->right);
+}
+
+int main() {
+    std::vector<int> nums = {-10, -3, 0, 5, 9};
+    
+    // Convert the sorted array to a BST
+    TreeNode* root = sortedArrayToBST(nums);
+    
+    // Print the inorder traversal of the BST (to verify the result)
+    inorderTraversal(root);
+    
+    return 0;
+}
