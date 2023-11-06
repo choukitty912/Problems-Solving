@@ -28,3 +28,26 @@ public:
         return res;
     }
 };
+
+
+std::vector<int> twoSum(std::vector<int>& nums, int target) {
+    std::unordered_map<int, int> numIndices;
+    std::vector<int> result;
+
+    for (int i = 0; i < nums.size(); ++i) {
+        int complement = target - nums[i];
+
+        // Check if the complement exists in the map
+        if (numIndices.find(complement) != numIndices.end()) {
+            // Found a pair that adds up to the target
+            result.push_back(numIndices[complement]); // Index of complement
+            result.push_back(i); // Current index
+            break;
+        }
+
+        // Store the current number and its index in the map
+        numIndices[nums[i]] = i;
+    }
+
+    return result;
+}
