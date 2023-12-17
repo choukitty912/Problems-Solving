@@ -45,3 +45,37 @@ struct ListNode* reverseBetween(struct ListNode* head, int m, int n) {
     return head;
 }
 
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (!head) return NULL;
+        if (m >= n) return head;
+
+        ListNode *dummy = new ListNode(0);
+        ListNode *prev;
+        prev = dummy;
+        dummy->next = head;
+        int count = 1;
+
+        while(prev->next != NULL && count < m) {
+            prev = prev->next;
+            count++;
+        }
+
+        if (prev->next == NULL) return head;
+
+        ListNode *reveserHead = prev;
+        prev = prev->next;
+        ListNode *cur = prev->next;
+        while(cur != NULL && count < n ) {
+            prev->next = cur->next;
+            cur->next = reveserHead->next;
+            reveserHead->next = cur;
+            cur = prev->next;
+            count++;            
+        }
+        print_list(dummy->next);
+        return dummy->next;
+    }
+};
