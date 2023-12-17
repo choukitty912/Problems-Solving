@@ -79,3 +79,40 @@ public:
         return dummy->next;
     }
 };
+
+
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if (!head) return NULL;
+        if (m >= n) return head;
+
+        ListNode *dummy = new ListNode(0);
+        ListNode *temp;
+        temp = dummy;
+        dummy->next = head;
+        int count = 1;
+
+        while(temp->next != NULL && count < m) {
+            temp = temp->next;
+            count++;
+        }
+
+        if (temp->next == NULL) return head;
+
+        ListNode *reveserHead = temp->next;
+        ListNode *prev = temp, *cur = temp->next, *next = NULL;
+
+        while(cur != NULL && count <= n ) {
+            next = cur->next;
+            cur->next = prev;
+            prev = cur;
+            cur = next;
+            count++;            
+        }
+        temp->next = prev;
+        reveserHead->next = cur;
+        print_list(dummy->next);
+        return dummy->next;
+    }
+};
